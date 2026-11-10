@@ -1,4 +1,4 @@
-# ENHANCE SECURITY OF AIRLINE E-TICKET SYSTEM USING IMAGE STEGANOGRAPHY
+# Enhance Security of Airline E-Ticket System Using Image Steganography
 
 B.E. thesis project: **YE Air International**, a Flask web app that lets passengers search flights, book a seat and download an e-ticket. They then use that e-ticket to find their check-in counter and to check in on their own. Airport staff use the admin pages to open check-in counters and track which passengers have checked in.
 
