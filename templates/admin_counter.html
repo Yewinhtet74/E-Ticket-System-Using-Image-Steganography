@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% block title %}Admin Counter - Ye Air International{% endblock %}
+{% block background %} {{ url_for('static', filename='images/bg9.jpg') }} {% endblock %}
+{% block navbar_admin_counter %} style="color: rgba(20,67,122,77);" {% endblock %}
+    {% block body %}
+<div class="container-xl mt-5">
+        <div class="container">
+
+            <div class="div w-100 " style="background-color:rgba(255, 255, 255, 0.85);">
+                <form action="/admin/counter" method="POST" >
+                    <div class="row p-3 justify-content-evenly">
+                        <label for="username" class="col-sm-2 col-form-label text-dark fs-6" style="text-align: right;"><b>Flight Number</b></label>
+                        <div class="col-sm-2">
+                            <select class="form-select" aria-label="Default select example" name="flight_no" required>
+                                {% for flight in data.flights %}
+                                    <option value="{{ flight[0] }}" {% if data.flight_no==flight[0] %}selected{% endif %}> {{ flight[0] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <label for="username" class="col-sm-2 col-form-label text-dark fs-6" style="text-align: right;"><b>Date of Flight</b></label>
+                        <div class="col-sm-2">
+                            <input type="date" class="form-control" id="username" name="date" value="{% if data.date %}{{ data.date }}{% elif data.date_now %}{{ data.date_now }}{% endif %}" required>
+                                <label class="float-start text-danger fs-6 fw-semibold fw-italic"> </label>
+                        </div>
+                        <label for="username" class="col-sm-2 col-form-label text-dark fs-6" style="text-align: right;"><b>Counter Number</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" name="counter" required value="{% if data.counter_no %}{{ data.counter_no }}{% endif %}">
+                                <label class="float-start text-danger fs-6 fw-semibold fw-italic"> </label>
+                        </div>
+                    </div>
+                    <div class="row p-3 pt-0  justify-content-center">
+                        <!--<label for="username" class="col-sm-1 col-form-label text-dark fs-6" style="text-align: right;"><b>Passenger</b></label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control " id="username" name="username" value="" required>
+                                <label class="float-start text-danger fs-6 fw-semibold fw-italic"> </label>
+                        </div>
+                        <div class="col-sm-1"></div>-->
+                        <button class="btn btn-dark col-sm-3 mt-2 mx-5 p-2 px-5 fs-5" style="background-color: rgb(0,188,212);border:1px solid white" type="submit" >Open Counter</button>
+                        {% if data.flight %}
+                        <a href="/admin/close_counter/{{ data.flight_no }}/{{ data.date }}" class=" col-sm-3 " ><button class="btn btn-dark w-100 mt-2 mx-5 p-2 px-5 fs-5" type="button">Close Counter</button></a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+            {% if data.flight %}
+                <div class="w-100 my-2 p-4  text-center" style="background-color:rgba(255, 255, 255, 0.85);">
+                    <div class="row">
+                        <div class="col">
+                            <h5>Counter Passcode</h5>
+                            <h1 class="text-danger" style="font-size: 100px;">{% if data.passcode %}{{ data.passcode }}{% endif %}</h1>
+                        </div>
+                        <div class="col pt-4">
+                            <h5>Flight Number</h5>
+                            <h1 class="text" style="font-size: 70px;color: rgb(0,188,212);">{% if data.flight_no %}{{ data.flight_no }}{% endif %}</h1>
+                              <div class="row justify-content-center">
+                                  <hr class="col-8" style="width:70%;height: 1px;margin-top: 0px;border: 1px solid rgb(0,188,212);opacity: .7;">
+                              </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-100 my-2 p-3" style="background-color:rgba(255, 255, 255, 0.85);">
+                    <div class="row justify-content-evenly">
+                        <div class="col-sm-7">
+                            <div class="row p-2 my-3">
+                                <div class="div col-3 text-center text-dark">
+                                    <h3 class="card-title " style="color: #4abee8;">{{ data.flight.depart_time }}</h3>
+                                   <h4 class="card-title my-2">{{ data.flight.depart_name }}</h4>
+                                   <h4 class="fs-6">({{ data.flight['arrive_code'] }})</h4>
+                                    <p class="card-text">{{ data.flight['depart_dates'] }}</p>
+                                </div>
+                                <div class="div col-6 text-center text-dark">
+                                    <div class="position-relative">
+                                        <img src="{{ url_for('static', filename='images/plane.png') }}" width="40" class="mt-4 pt-2 position-absolute top-50 start-50" style="margin-top: 300px;">
+                                        <hr class="position-absolute" style="width:100%;height: 1px;margin-top: 48px;border: 1px solid black;opacity: .7;">
+                                    </div>
+                                </div>
+                                <div class="div col-3 text-center text-dark">
+                                    <h3 class="card-title"  style="color: #4abee8;">{{ data.flight.arrive_time }}</h3>
+                                    <h4 class="card-title my-2">{{ data.flight['arrive_name'] }}</h4>
+                                    <h4 class="fs-6">({{ data.flight['arrive_code'] }})</h4>
+                                    <p class="card-text">{{ data.flight.arrive_date }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="div col-md-5">
+                            <div class="row">
+                                   {% if data.flight.first_seat!=0 %}
+                                       <div class="col px-1">
+                                           <div class="card p-2 text-center"  style="background-color: rgb(255, 204, 0);">
+                                               <div class="card-header fs-4">
+                                               First
+                                               </div>
+                                               <div class="card-body p-3">
+                                               <p class="card-text fs-4">Class</p>
+                                               </div>
+                                               <div class="card-footer text-body-secondary" style="background-color: #e6e6e6">
+                                               Include
+                                               </div>
+                                           </div>
+                                       </div>
+
+                                   {% endif %}
+                                   {% if data.flight.business_seat!=0 %}
+                                       <div class="col px-1">
+                                           <div class="card p-2 text-center" style="background-color: rgb(133, 224, 133);">
+                                               <div class="card-header fs-4">
+                                               Business
+                                               </div>
+                                               <div class="card-body p-3">
+                                               <p class="card-text fs-4">Class</p>
+                                               </div>
+                                               <div class="card-footer text-body-secondary" style="background-color: #e6e6e6">
+                                               Include
+                                               </div>
+                                       </div>
+
+                                       </div>
+                                   {% endif %}
+                                   {% if data.flight.premium_seat!=0 %}
+                                       <div class="col px-1">
+                                           <div class="card p-2  text-center" style="background-color: rgb(102, 194, 255);">
+                                               <div class="card-header fs-4">
+                                               Premium
+                                               </div>
+                                               <div class="card-body p-3">
+                                               <p class="card-text fs-4">Class</p>
+                                               </div>
+                                               <div class="card-footer text-body-secondary" style="background-color: #e6e6e6">
+                                               Include
+                                               </div>
+                                           </div>
+                                       </div>
+
+                                   {% endif %}
+                                   {% if data.flight.economy_seat!=0 %}
+                                       <div class="col px-1">
+                                           <div class="card p-2  text-center" style="background-color: rgb(191, 191, 191);">
+                                               <div class="card-header fs-4">
+                                               Economy
+                                               </div>
+                                               <div class="card-body p-3">
+                                               <p class="card-text fs-4">Class</p>
+                                               </div>
+                                               <div class="card-footer text-body-secondary" style="background-color: #e6e6e6">
+                                               Include
+                                               </div>
+                                           </div>
+                                       </div>
+
+                                   {% endif %}
+                            </div>
+                        </div>
+                   </div>
+                </div>
+            {% endif %}
+          </div>
+
+    </div>
+    {% endblock %}

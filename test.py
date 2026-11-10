@@ -1,0 +1,3 @@
+def one():
+    print('HIIII')
+

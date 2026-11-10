@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title> <link
+    rel="icon"
+    href={{ url_for('static', filename='images/logo_icon.png') }}
+    type="image/x-icon"
+/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        body {
+              /* The image used */
+              background-image: url({% block background %} {{ url_for('static', filename='images/bg7.jpg') }} {% endblock %});
+              width: 100%;
+              background-position: center;
+              background-attachment: fixed;
+              background-size: cover;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-1 fixed-top" style="opacity: .9;">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="" width="55" height="" class="d-inline-block align-text-top">
+            <img src="{{ url_for('static', filename='images/brand-name.png') }}" alt="" width="350" height="" class="d-inline-block align-text-top pt-1">
+        </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    {% block navbar %}
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <ul class="navbar-nav ms-auto">
+            {% if not(data.admin_username) %}
+              <li class="nav-item px-3">
+                <a class="nav-link fw-bold" href="/" {% block navbar_home %}{% endblock %}>Home</a>
+              </li>
+              <li class="nav-item px-3">
+                <a class="nav-link fw-bold" href="/findflight" {% block navbar_findflight %}{% endblock %}>Search Flight</a>
+              </li>
+              <li class="nav-item px-3">
+                <a class="nav-link fw-bold" href="/checkin" {% block navbar_checkin %}{% endblock %}>Check In</a>
+              </li>
+              <li class="nav-item px-3">
+                <a class="nav-link fw-bold" href="/findcounter" {% block navbar_findcounter %}{% endblock %}>Find Counter</a>
+              </li>
+              <li class="nav-item px-3">
+                <a class="nav-link fw-bold" href="/notice" {% block navbar_notice %}{% endblock %}>Notice</a>
+              </li>
+              <li class="nav-item px-3">
+                <a class="nav-link fw-bold" href="/about" {% block navbar_about %}{% endblock %}>About</a>
+              </li>
+            {% else %}
+              <li class="nav-item px-3">
+                <a class="nav-link fw-bold" href="/admin/counter" {% block navbar_admin_counter %}{% endblock %}>Counter</a>
+              </li>
+              <li class="nav-item px-3">
+                <a class="nav-link fw-bold" href="/admin/dashboard" {% block navbar_admin_dashboard %}{% endblock %}>Dashboard</a>
+              </li>
+              <li class="nav-item px-3 py-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person mx-1" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
+                </svg>
+                {{ data.admin_username }}
+              </li>
+              <li class="nav-item px-3">
+                <a class="nav-link fw-bold" href="/admin/logout">
+                    <button class="btn btn-dark px-3" style="margin-top: -5px"><b>Log Out</b></button>
+                </a>
+              </li>
+            {% endif %}
+        </ul>
+      </div>
+    {% endblock %}
+    </div>
+</nav>
+<div class="container mt-5 p-4" style="">
+
+</div>
+
+    {% block body %}
+    {% endblock %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+{% block srcipt %}
+{% endblock %}
+</body>
+</html>

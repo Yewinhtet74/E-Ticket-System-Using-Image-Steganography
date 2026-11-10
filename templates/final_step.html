@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}Confirm{% endblock %}
+{% block body %}
+    <!--Nav -->
+    <div class="container-xl mt-5">
+        <div class="container">
+            
+            <div class="w-100 p-3" style="background-color:rgba(255, 255, 255, 0.85);">
+                <div class="row mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="30" fill="currentColor" class="bi col-1 m-3 offset-sm-0 bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+                    </svg>
+                    <div class="col-2"></div>
+                    <div class="position-relative m-4 col-6">
+                        <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="height: 2px;background-color: rgb(255,255,255);">
+                        <div class="progress-bar" style="width: 100%;background-color: rgb(0,188,212);"></div>
+                        </div>
+                        <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-info text-white rounded-pill" style="width: 2rem; height:2rem;background-color: rgb(0,188,212);">1</button>
+                        <h6 class="position-absolute top-0 start-0 mt-3" style="margin-left: -50px;color: rgb(0,188,212);">Passenger Info</h6>
+                        <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-infolight text-white rounded-pill" style="width: 2rem; height:2rem;background-color: rgb(0,188,212);">2</button>
+                        <h6 class="position-absolute top-0 start-100 mt-3" style="margin-left: -40px;color: rgb(0,188,212);">Confirmation</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 my-2 p-3 mb-5" style="background-color:rgba(255, 255, 255, 0.85);">
+               <div class="h3 mx-3 my-2 text-center mt-3 mb-5">Final Confirmation</div>
+               <div class="row justify-content-evenly">
+                   <div class="col-sm-7">
+                       <div class="row p-2 my-3">
+                           <div class="div col-3 text-center text-dark">
+                               <h3 class="card-title text-info">{{ data['depart_time'] }}</h3>
+                               <h4 class="card-title my-2">{{ data['depart_name'] }}</h4>
+                               <h4 class="fs-6">({{ data['depart_code'] }})</h4>
+                               <p class="card-text">{{ data['depart_dates'] }} </p>
+                           </div>
+                           <div class="div col-6 text-center text-dark">
+                               <div class="position-relative">
+                                   <img src="{{ url_for('static', filename='images/plane.png') }}" width="40" class="mt-4 pt-2 position-absolute top-50 start-50" style="margin-top: 300px;">
+                                   <hr class="position-absolute" style="width:100%;height: 1px;margin-top: 48px;border: 1px solid black;opacity: .7;">
+                               </div>
+                           </div>
+                           <div class="div col-3 text-center text-dark">
+                               <h3 class="card-title text-info">{{ data['arrive_time'] }}</h3>
+                               <h4 class="card-title my-2">{{ data['arrive_name'] }}</h4>
+                               <h4 class="fs-6">({{ data['arrive_code'] }})</h4>
+                               <p class="card-text">{{ data['arrive_date'] }} </p>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="div col-sm-3 ms-3">
+                       <div class="row">
+                            <div class="card col text-center">
+                                <div class="card-header" style="background-color: {% if data.class=='first' %}rgb(255, 204, 0){% elif data.class=='business' %}rgb(133, 224, 133){%  elif data.class=='premium' %}rgb(102, 194, 255){% else %}rgb(191, 191, 191){% endif %};">
+                                {{ data.class.capitalize() }} Class
+                                </div>
+                                <div class="card-body">
+                                <h3 class="card-title"  style="color:#bf9b30">${{ data.price }}</h3>
+                                <p class="card-text">One seat</p>
+                                </div>
+                                <div class="card-footer text-body-secondary">
+                                Selected
+                                </div>
+                            </div>
+                       </div>
+                   </div>
+                </div>
+                <div class="row justify-content-center mt-5">
+                    <hr class="col-10" style="width:80%;height: 1px;margin-top: 0px;border: 1px solid #4abee8;opacity: .7;">
+                </div>
+                <div class="row my-3 justify-content-center text-center">
+                        <div class="col-md-2 mx-3">
+                            <p class="fs-5" style="color: #009eb3;"><b>Passenger Name</b></p>
+                            <p class=" fs-4" ><b>{{ data['name'] }}</b></p>
+                        </div>
+                        <div class="col-md-2 mx-3">
+                            <p class="  fs-5" style="color: #009eb3;"><b>Passport Number</b></p>
+                            <p class=" fs-4"><b>{{ data['passport'] }}</b></p>
+                        </div>
+                        <div class="col-md-2 mx-3">
+                            <p class="  fs-5" style="color: #009eb3;"><b>Email Address</b></p>
+                            <p class=" fs-4"><b>{{ data['email'] }}</b></p>
+                        </div>
+                        <div class="col-md-2 mx-3">
+                            <p class="  fs-5" style="color: #009eb3;"><b>Phone Number</b></p>
+                            <p class=" fs-4"><b>{{ data['phone'] }}</b></p>
+                        </div>
+              </div>
+              <div class="row justify-content-center">
+                  <hr class="col-10" style="width:80%;height: 1px;margin-top: 0px;border: 1px solid #4abee8;opacity: .7;">
+              </div>
+              <div class="text-center mt-3 mb-4">
+                      <input type="hidden" name="passenger_name" value="{{ data['name'] }}">
+                      <input type="hidden" name="passport" value="{{ data['passport'] }}">
+                      <input type="hidden" name="email" value="{{ data['email'] }}">
+                      <input type="hidden" name="phone_no" value="{{ data['phone'] }}">
+                      <input type="hidden" name="flight_no" value="{{ data['flight_no'] }}">
+                      <input type="hidden" name="date" value="{{ data['depart_date'] }}">
+                      <input type="hidden" name="class" value="{{ data['class'].capitalize() }}">
+                      <button type="" id="download-button" onclick="downloadFile('{{ data['name'] }}','{{ data['passport'] }}','{{ data['email'] }}','{{ data['phone'] }}','{{ data['flight_no'] }}','{{ data['depart_date'] }}','{{ data['class'].capitalize() }}')" class="btn btn-dark mt-2 mx-5 p-2 px-5 fs-5" style="background-color: rgb(0,188,212);border:1px solid white">Confirm Info & Get Ticket</button>
+
+              </div>
+            </div>
+          </div>
+
+    </div>
+{% endblock %}
+{% block srcipt %}
+    <script>
+        const button = document.getElementById('download-button');
+       async function downloadFile(name,passport,email,phone_no,flight_no,date,clas) {
+        const response = await fetch('/get_ticket', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passenger_name: name,passport:passport, email :email,phone_no:phone_no, flight_no:flight_no, date:date, class:clas }),
+        });
+
+        // Handle server response (optional)
+        // You could check for errors or status codes here
+        console.log('here')
+        const downloadedFile = await response.blob();
+
+        // Create a link element (optional, for user interaction)
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(downloadedFile);
+        downloadLink.download = 'E-Ticket '.concat('@ ',name,'.png');
+        downloadLink.click();
+        button.disabled = true;
+    }
+
+    </script>
+{% endblock %}

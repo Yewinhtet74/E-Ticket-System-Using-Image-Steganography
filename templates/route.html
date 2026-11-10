@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block title %}Find Flight{% endblock %}
+{% block navbar_findflight %} style="color: rgba(20,67,122,77);" {% endblock %}
+    {% block body %}
+
+    <div class="container-xl mt-5">
+        <div class="container">
+            <div class="div w-100 bg-light bg-opacity-75">
+                <form action="/findflight" method="POST" >
+                    <div class="row p-3">
+                        <label for="username" class="col-sm col-form-label text-dark fs-6" style="text-align: right;"><b>Departure</b></label>
+                        <div class="col-sm-2">
+                            <select class="form-select" aria-label="Default select example" name="depart">
+                                <option selected></option>
+                                {% for k,v in data.airport.items() %}
+                                    <option value="{{ k }}" {% if data.depart==k %}selected{% endif %}>{{ v.city }} ({{ k }}) </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <label for="username" class="col-sm-1 col-form-label text-dark fs-6" style="text-align: right;"><b>Arrival</b></label>
+                        <div class="col-sm-2">
+                            <select class="form-select" aria-label="Default select example" name="arrive">
+                                <option selected></option>
+                                {% for k,v in data.airport.items() %}
+                                    <option value="{{ k }}" {% if data.arrive==k %}selected{% endif %}>{{ v.city }} ({{ k }}) </option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                        <label for="username" class="col-sm col-form-label text-dark fs-6" style="text-align: right;"><b>Departure Date</b></label>
+                        <div class="col-sm">
+                            <input type="date" class="form-control" id="username" name="date" value="{% if data.date %}{{ data.date }}{% endif %}" min="{{ data['start_date'] }}" max="{{ data['end_date'] }}" required>
+                                <label class="float-start text-danger fs-6 fw-semibold fw-italic"> </label>
+                        </div>
+                        <label for="username" class="col-sm col-form-label text-dark fs-6" style="text-align: right;"><b>Class</b></label>
+                        <div class="col-sm">
+                            <select class="form-select" aria-label="Default select example" name="class">
+                                <option selected></option>
+                                <option value="First" {% if data.class=='First' %}selected{% endif %}>First</option>
+                                <option value="Business" {% if data.class=='Business' %}selected{% endif %}>Business</option>
+                                <option value="Premium" {% if data.class=='Premium' %}selected{% endif %}>Premium</option>
+                                <option value="Economy" {% if data.class=='Economy' %}selected{% endif %}>Economy</option>
+                            </select>
+                            <label class="float-start text-danger fs-6 fw-semibold fw-italic"> </label>
+                        </div>
+                    </div>
+                    <div class="row p-3  justify-content-center">
+                        <!--<label for="username" class="col-sm-1 col-form-label text-dark fs-6" style="text-align: right;"><b>Passenger</b></label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control " id="username" name="username" value="" required>
+                                <label class="float-start text-danger fs-6 fw-semibold fw-italic"> </label>
+                        </div>
+                        <div class="col-sm-1"></div>-->
+                        <button class="btn btn-dark col-sm-3 mt-2 mx-5 p-2 px-5 fs-5" style="background-color: rgb(0,188,212);border:1px solid white" type="submit" >Search Flight</button>
+                    </div>
+                </form>
+            </div>
+            {%  if data['routes'] or data['routes']==[] %}
+                <div class="w-100 bg-light my-2 p-3 bg-opacity-75 mb-5" style="">
+                    <div class="h4 mx-3 my-2 fw-light">Flight Found : <span class="fw-normal fs-3" style="">{{ data['routes'].__len__() }}</span> Flight{% if data['routes'].__len__()>1 %}s{% endif %}</div>
+
+                    {% for route in data['routes'] %}
+                        <div class="row mb-3">
+                           <div class="col-sm-7 bg-light">
+                               <div class="row p-2 my-3">
+                                   <div class="div col-3 text-center text-dark">
+                                   <h3 class="card-title text-info">{{ route['depart_time'] }}</h3>
+                                   <h4 class="card-title my-2">{{ route['depart_name'] }}</h4>
+                                   <h4 class="fs-6">({{ route['depart_code'] }})</h4>
+                                   <p class="card-text">{{ route['depart_date'] }} </p>
+                                   </div>
+                                   <div class="div col-6 text-center text-dark">
+                                       <div class="position-relative">
+                                           <img src="{{ url_for('static', filename='images/plane.png') }}" width="40" class="mt-4 pt-2 position-absolute top-50 start-50" style="margin-top: 300px;">
+                                           <hr class="position-absolute" style="width:100%;height: 1px;margin-top: 48px;border: 1px solid black;opacity: .7;">
+                                       </div>
+                                   </div>
+                                   <div class="div col-3 text-center text-dark">
+                                   <h3 class="card-title text-info">{{ route['arrive_time'] }}</h3>
+                                   <h4 class="card-title my-2">{{ route['arrive_name'] }}</h4>
+                                   <h4 class="fs-6">({{ route['arrive_code'] }})</h4>
+                                   <p class="card-text">{{ route['arrive_date'] }} </p>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="div col-sm-5">
+                               <div class="row">
+                                   {% if route.first_seat!=0 %}
+                                       <div class="card col py-2 text-center">
+                                           <div class="card-header" style="background-color: rgb(255, 204, 0);">
+                                           First
+                                           </div>
+                                           <div class="card-body">
+                                           <h5 class="card-title"  style="color:#bf9b30">${{ route.first_price }}</h5>
+                                           <p class="card-text">One seat</p>
+                                           </div>
+                                           <a href="/first_step/{{ route.flight_no }}/{{ data.date }}/first/{{ route.first_price }}" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                               <div class="card-footer text-body-secondary">
+                                               Select
+                                               </div>
+                                           </a>
+                                       </div>
+                                   {% endif %}
+                                   {% if route.business_seat!=0 %}
+                                       <div class="card col py-2  text-center">
+                                           <div class="card-header" style="background-color: rgb(133, 224, 133);">
+                                           Business
+                                           </div>
+                                           <div class="card-body">
+                                               <h5 class="card-title" style="color:#bf9b30">${{ route.bussiness_price }}</h5>
+                                               <p class="card-text">One seat</p>
+                                           </div>
+                                           <a href="/first_step/{{ route.flight_no }}/{{ data.date }}/business/{{ route.bussiness_price }}" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                               <div class="card-footer text-body-secondary">
+                                               Select
+                                               </div>
+                                           </a>
+                                       </div>
+                                   {% endif %}
+                                   {% if route.premium_seat!=0 %}
+                                       <div class="card col py-2  text-center">
+                                           <div class="card-header" style="background-color: rgb(102, 194, 255);">
+                                           Premium
+                                           </div>
+                                           <div class="card-body">
+                                               <h5 class="card-title" style="color:#bf9b30">${{ route.premium_price }}</h5>
+                                               <p class="card-text">One seat</p>
+                                           </div>
+                                           <a href="/first_step/{{ route.flight_no }}/{{ data.date }}/premium/{{ route.premium_price }}" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                               <div class="card-footer text-body-secondary">
+                                               Select
+                                               </div>
+                                           </a>
+                                       </div>
+                                   {% endif %}
+                                   {% if route.economy_seat!=0 %}
+                                       <div class="card col py-2  text-center">
+                                           <div class="card-header" style="background-color: rgb(191, 191, 191);">
+                                           Economy
+                                           </div>
+                                           <div class="card-body">
+                                               <h5 class="card-title" style="color:#bf9b30">${{ route.economy_price }}</h5>
+                                               <p class="card-text">One seat</p>
+                                           </div>
+                                           <a href="/first_step/{{ route.flight_no }}/{{ data.date }}/economy/{{ route.economy_price }}" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                               <div class="card-footer text-body-secondary">
+                                               Select
+                                               </div>
+                                           </a>
+                                       </div>
+                                   {% endif %}
+                               </div>
+                           </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+          </div>
+
+    </div>
+    {% endblock %}

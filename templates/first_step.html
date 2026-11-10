@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock %}
+    {% block body %}
+    <div class="container-xl mt-5">
+        <div class="container">
+
+            <div class=" p-3" style="background-color:rgba(255, 255, 255, 0.85);">
+                <div class="row mb-3">
+                    <a href="/findflight" class=" pt-3 px-3  col-1 "  style="text-decoration:none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="30" fill="currentColor" class="bim-3 text-dark offset-sm-0 bi-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+                        </svg>
+                    </a>
+                    <div class="col-2"></div>
+                    <div class="position-relative m-4 col-6">
+                        <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="height: 2px;background-color: rgb(255,255,255);"s>
+                        <div class="progress-bar" style="width: 0%;background-color: rgb(0,188,212);"></div>
+                        </div>
+                        <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-info text-white rounded-pill" style="width: 2rem; height:2rem;background-color: rgb(0,188,212);">1</button>
+                        <h6 class="position-absolute top-0 start-0 mt-3" style="margin-left: -50px;color: rgb(0,188,212);">Passenger Info</h6>
+                        <!--<button type="button" class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-light rounded-pill" style="width: 2rem; height:2rem;">2</button>
+                        <h6 class="position-absolute top-0 start-50 mt-3 text-white" style="margin-left: -30px;color: rgb(0,188,212);">Payment</h6>-->
+                        <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-light rounded-pill" style="width: 2rem; height:2rem;">2</button>
+                        <h6 class="position-absolute top-0 start-100 mt-3 text-white" style="margin-left: -40px;color: rgb(0,188,212);">Confirmation</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 my-2 p-3 " style="background-color:rgba(255, 255, 255, 0.85);">
+                <div class="row justify-content-evenly">
+                    <div class="col-sm-7">
+                        <div class="row p-2 my-3">
+                           <div class="div col-3 text-center text-dark">
+                               <h3 class="card-title text-info">{{ data['depart_time'] }}</h3>
+                               <h4 class="card-title my-2">{{ data['depart_name'] }}</h4>
+                               <h4 class="fs-6">({{ data['depart_code'] }})</h4>
+                               <p class="card-text">{{ data['depart_dates'] }} </p>
+                           </div>
+                            <div class="div col-6 text-center text-dark">
+                                <div class="position-relative">
+                                    <img src="{{ url_for('static', filename='images/plane.png') }}" width="40" class="mt-4 pt-2 position-absolute top-50 start-50" style="margin-top: 300px;">
+                                    <hr class="position-absolute" style="width:100%;height: 1px;margin-top: 48px;border: 1px solid black;opacity: .7;">
+                                </div>
+                            </div>
+                           <div class="div col-3 text-center text-dark">
+                               <h3 class="card-title text-info">{{ data['arrive_time'] }}</h3>
+                               <h4 class="card-title my-2">{{ data['arrive_name'] }}</h4>
+                               <h4 class="fs-6">({{ data['arrive_code'] }})</h4>
+                               <p class="card-text">{{ data['arrive_date'] }} </p>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="div col-sm-3 ms-3">
+                        <div class="row">
+                            <div class="card col text-center">
+                                <div class="card-header" style="background-color: {% if data.class=='first' %}rgb(255, 204, 0){% elif data.class=='business' %}rgb(133, 224, 133){%  elif data.class=='premium' %}rgb(102, 194, 255){% else %}rgb(191, 191, 191){% endif %};">
+                                {{ data.class.capitalize() }} Class
+                                </div>
+                                <div class="card-body">
+                                <h3 class="card-title"  style="color:#bf9b30">${{ data.price }}</h3>
+                                <p class="card-text">One seat</p>
+                                </div>
+                                <div class="card-footer text-body-secondary">
+                                Selected
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+            </div>
+            <div class="w-100 my-2 p-3  mb-5" style="background-color:rgba(255, 255, 255, 0.85);">
+               <div class="h3 mx-3 my-2 text-center mt-3">Please Fill Personal Information</div>
+                <form action="/final_step/{{ data.flight_no }}/{{ data.depart_date }}/{{ data.class }}/{{ data.price }}" method="post">
+                    <div class="row mb-3 justify-content-center">
+                        <div class="col-sm-7">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Eg: Ye Win Htet" name="name" required>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Passport Number</label>
+                                <input type="text" class="form-control" id="passport-input" placeholder="Eg: MJ859237" name="passport" required>
+                                <label class="" id="passport-val-label"></label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="email-input" placeholder="Eg: name@example.com" name="email" required>
+                                <label class="" id="email-val-label"></label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phone-input" placeholder="Eg: +9542374645" name="phone" required>
+                                <label class="" id="phone-val-label"></label>
+                            </div>
+                            <div class="text-end">
+                            <button type="submit" id="submit" disabled="disabled" class="btn btn-dark mt-2 mx-5 p-2 px-5 fs-5" style="background-color: rgb(0,188,212);border:1px solid white">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block srcipt %}
+    <script>
+    const emailInput = document.getElementById('email-input');
+    const phoneInput = document.getElementById('phone-input');
+    const passportInput = document.getElementById('passport-input');
+    const validationMessage = document.getElementById('email-val-label');
+    const validationMessage2 = document.getElementById('phone-val-label');
+    const validationMessage3 = document.getElementById('passport-val-label');
+    const btn = document.getElementById('submit');
+    mailf=false; phonef=false; passportf=false;
+    emailInput.addEventListener('keyup', function() {
+      const email = this.value;
+      const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}$/;
+
+      if (regex.test(email)) {
+        validationMessage.textContent = "";
+        //validationMessage.style.color = "green";
+          mailf=true;
+          if (mailf && phonef && passportf){btn.disabled=false;}
+
+
+      } else {
+        validationMessage.textContent = "Invalid Email Format";
+        validationMessage.style.color = "red";
+        btn.disabled=true;
+      }
+    });
+    phoneInput.addEventListener('keyup', function() {
+      const phone = this.value;
+      const regex2 =  /^[+]?\(?([0-9]{3})\)?[ .]?([0-9]{3})[ .]?([0-9]{4,9})$/;
+
+      if (regex2.test(phone)) {
+        validationMessage2.textContent = "";
+        //validationMessage2.style.color = "green";
+          phonef=true;
+          if (mailf && phonef && passportf){btn.disabled=false;}
+
+      } else {
+        validationMessage2.textContent = "Invalid Phone Format";
+        validationMessage2.style.color = "red";
+        btn.disabled=true;
+      }
+    });
+    passportInput.addEventListener('keyup', function() {
+      const phone = this.value;
+      const regex2 =  /^[a-zA-Z0-9]{5,9}$/;
+
+      if (regex2.test(phone)) {
+        validationMessage3.textContent = "";
+        //validationMessage2.style.color = "green";
+          passportf=true;
+          if (mailf && phonef && passportf){btn.disabled=false;}
+
+      } else {
+        validationMessage3.textContent = "Invalid Passport Format";
+        validationMessage3.style.color = "red";
+        btn.disabled=true;
+      }
+    });
+
+  </script>
+
+{% endblock %}

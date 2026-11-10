@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}Find Counter{% endblock %}
+{% block navbar_findcounter %} style="color: rgba(20,67,122,77);" {% endblock %}
+    {% block body %}
+        {% if data.response and not data.status %}
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header {% if data.status %}bg-success{% else %}bg-danger{% endif %} text-light">
+                      <h2 class="modal-title mx-2" id="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                            </svg>
+                        Unable To Find
+                        </h2>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>{{ data.info }}</h4>
+                        <h4>{{ data.info2 }}</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary p-2 px-5 fs-5" data-bs-dismiss="modal"  style="border:1px solid white">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            {% endif %}
+        {% if not (not data.response and data.status) %}
+            <!--Modal-->
+            <div class="container-xl pt-5 my-5">
+                <div class="row justify-content-center mt-5">
+                    <div class=" col-8 text-center p-5 badge" style="background-color:rgba(255, 255, 255, 0.85);">
+                        <div class="mx-5">
+                            <h1 class="mb-5 text-dark">Find Counter</h1>
+                            <form method="post" action="/findcounter" enctype="multipart/form-data">
+                                <div class="row mb-4 justify-content-center">
+                                    <label for="username" class="col-sm-3 col-form-label text-dark fs-6"  style="text-align: right;">E-Ticket</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="file" id="formFile" name="ticket" required>
+                                        <label class="float-start text-danger fs-6 fw-semibold fw-italic"></label>
+                                        <img src="" class="bg-dark w-100 mt-1" alt="Selected Image Preview" id="image-preview" style="display: none;border: 1px solid black;">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-dark mt-2 mx-5 p-2 px-5 fs-5" style="background-color: rgb(0,188,212);border:1px solid white">Find</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if data.status %}
+            <div class="container">
+                <div class="w-100 my- py-5 p-4  text-center" style="background-color:rgba(255, 255, 255, 0.85);margin-top: 80px;">
+                    <h1 class="mb-5 text-dark">Find Counter</h1>
+                    <div class="row">
+                        <div class="col-md">
+                            {% if data.counter_no %}
+                                <h5>Check In Counter</h5>
+                                <h1 class="text-danger mb-0" style="font-size: 100px;">{{ data.counter_no }}</h1>
+                            {% else %}
+                                <h1 class="text-danger mb-0" style="font-size: 30px;">Check In Counter</h1>
+                                <h1 class="text-danger mb-4" style="font-size: 50px;">Not Open Yet</h1>
+                                <h5 class="mb-3">Estimated Open Time : <span  class="fs-3 text-primary">{{ data.departure_time }}</span></h5>
+                            {% endif %}
+                            <h1 class="text mb-0" style="font-size: 15px;">Location <span class="fs-6 fw-thin"></span></h1>
+                            <p class="card-text m-1" style="font-size: 20px;">{{ data.city }} ({{ data.departure_code }})</p>
+                        </div>
+                        <div class="col-md pt-4">
+                            <h5>Flight Number</h5>
+                            <h1 class="text" style="font-size: 70px;color: rgb(0,188,212);">{{ data.flight_no }}</h1>
+                            <h1 class="text mt-3" style="font-size: 15px;">Flight Date</h1>
+                            <p class="card-text m-0" style="font-size: 20px;">{{ data.flight_date }} </p>
+                        </div>
+                    </div>
+                    
+                    <a href="/findcounter"><button type="submit" class="btn btn-dark m-4 mx-5 p-2 px-5 fs-5" style="background-color: rgb(0,188,212);border:1px solid white">Back</button></a>
+                </div>
+            </div>
+        {%endif %}
+    {% endblock %}
+
+{% block srcipt %}
+    <script type="text/javascript">
+        $(window).on('load', function() {
+            $('#myModal').modal('show');
+        });
+    </script>
+    <script>
+        const fileUpload = document.getElementById('formFile');
+        const imagePreview = document.getElementById('image-preview');
+
+        fileUpload.addEventListener('change', function() {
+        const reader = new FileReader();
+        imagePreview.style.display='block';
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+        };
+
+        reader.readAsDataURL(this.files[0]);
+        });
+
+    </script>
+{% endblock %}

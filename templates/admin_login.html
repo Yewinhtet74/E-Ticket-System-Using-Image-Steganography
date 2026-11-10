@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Admin Login - Ye Air International{% endblock %}
+{% block background %} {{ url_for('static', filename='images/bg9.jpg') }} {% endblock %}
+{% block navbar %} {% endblock %}
+    {% block body %}
+<div class="container-xl pt-5 mt-5">
+        <div class="row justify-content-center mt-5">
+            <div class=" col-8 text-center  p-5  badge"style="background-color:rgba(255, 255, 255, 0.85);" >
+                <div class="mx-5">
+                    <h1 class="mb-5 text-dark">Admin Login</h1>
+                    <form method="post" action="/admin/login">
+                        <div class="row mb-4 justify-content-center">
+                            <label for="username" class="col-sm-2 col-form-label text-dark fs-6">Username</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="username" value="" required>
+                                    <label class="float-start text-danger fs-6 fw-semibold fw-italic">{% if data.username_err %}{{ data.username_err }}{% endif %} </label>
+                            </div>
+                        </div>
+                        <div class="row mb-4 justify-content-center">
+                            <label for="username" class="col-sm-2 col-form-label text-dark fs-6">Password</label>
+                            <div class="col-sm-4">
+                                <input type="password" class="form-control" name="password" value="" required>
+                                    <label class="float-start text-danger fs-6 fw-semibold fw-italic">{%  if data.password_err %}{{ data.password_err }}{% endif %}</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-dark mt-2">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endblock %}

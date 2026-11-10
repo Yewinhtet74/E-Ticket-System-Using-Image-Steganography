@@ -1,0 +1,14 @@
+# Python virtual environments (each person creates their own with run_project.bat)
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# PyCharm / VS Code settings
+.idea/
+.vscode/
+
+# Generated e-tickets
+images/tickets/

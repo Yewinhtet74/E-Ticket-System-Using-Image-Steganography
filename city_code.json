@@ -1,0 +1,11 @@
+{
+"RGN":{"airport":"Yangon International Airport","city":"Yangon","country":"Myanmar"},
+"BKK":{"airport":"Suvarnabhumi Airport","city":"Bangkok","country":"Thailand"},
+"SIN":{"airport":"Singapore Changi Airport","city":"Singapore","country":"Singapore"},
+"KUL":{"airport":"Kuala Lumpur International Airport","city":"Kuala lumpur","country":"Malaysia"},
+"SGN":{"airport":"Tan Son Nhat International Airport","city":"Ho Chi Min","country":"Vietnam"},
+"CGK":{"airport":"Soekarno-Hatta International Airport","city":"Jakarta","country":"Indonesia"},
+"MNL":{"airport":"Ninoy Aquino International Airport","city":"Manila","country":"Philippines"},
+"ICN":{"airport":"Incheon International Airport","city":"Seoul","country":"South Korea"},
+"HND":{"airport":"Tokyo Haneda International Airport","city":"Tokyo","country":"Japan"}
+}
